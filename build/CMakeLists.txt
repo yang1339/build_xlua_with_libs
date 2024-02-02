@@ -241,6 +241,7 @@ source_group_by_dir(${CMAKE_CURRENT_SOURCE_DIR} XLUA_CORE)
 if (APPLE)
     if (IOS)
         set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD)")
+	ADD_DEFINITIONS(-DLUA_USE_IOS) #ios remove system
         add_library(xlua STATIC
            ${LUA_CORE}
            ${LUA_LIB}
