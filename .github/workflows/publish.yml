@@ -26,12 +26,12 @@ jobs:
           ./make_android_lua54.sh
           ./make_android_lua53.sh
           sudo apt install gcc-multilib
-      - name: Upload54
+      - name: Upload54-and
         uses: actions/upload-artifact@v4
         with:
           path: ./build/plugin_lua54/**/*
           name: plugin_lua54
-      - name: Upload53
+      - name: Upload53-and
         uses: actions/upload-artifact@v4
         with:
           path: ./build/plugin_lua53/**/*
