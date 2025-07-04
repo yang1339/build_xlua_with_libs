@@ -30,12 +30,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./build/plugin_lua54/**/*
-          name: plugin_lua54
+          name: plugin_lua54_and
       - name: Upload53-and
         uses: actions/upload-artifact@v4
         with:
           path: ./build/plugin_lua53/**/*
-          name: plugin_lua53   
+          name: plugin_lua53_and   
   linux:
     runs-on: ubuntu-latest
     steps:
