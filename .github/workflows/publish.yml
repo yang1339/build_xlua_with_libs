@@ -20,7 +20,7 @@ jobs:
           sudo apt install unzip -y
           unzip -q NDK
           ANDROID_NDK_HOME=$(pwd)/android-ndk-r15c
-      - name: Build
+      - name: Build-IOS
         run: |
           cd build
           ./make_android_lua54.sh
