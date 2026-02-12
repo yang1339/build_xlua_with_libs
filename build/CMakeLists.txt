@@ -345,23 +345,23 @@ else ( )
     endif()
 endif ( )
 
-#if ( ANDROID )
+if ( ANDROID )
 #    target_link_options(xlua PRIVATE -Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384) # android 16K Pagesize
 
-# 1. 为xlua添加编译阶段的16K对齐参数（核心补充）
-target_compile_options(xlua PRIVATE
-    # C语言参数
-    $<$<COMPILE_LANGUAGE:C>:-falign-functions=16384 -falign-jumps=16384 -falign-loops=16384 -falign-data=16384>
-    # C++语言参数
-    $<$<COMPILE_LANGUAGE:CXX>:-falign-functions=16384 -falign-jumps=16384 -falign-loops=16384 -falign-data=16384>
-)
-
-# 2. 保留你的链接参数，并补充段对齐（强化16K效果）
-target_link_options(xlua PRIVATE
-    -Wl,--align-sections=16384  # 强制SO内部段按16K对齐（关键补充）
-    -Wl,-z,max-page-size=16384
-    -Wl,-z,common-page-size=16384
-)
+    # 1. 为xlua添加编译阶段的16K对齐参数（核心补充）
+    target_compile_options(xlua PRIVATE
+        # C语言参数
+        $<$<COMPILE_LANGUAGE:C>:-falign-functions=16384 -falign-jumps=16384 -falign-loops=16384 -falign-data=16384>
+        # C++语言参数
+        $<$<COMPILE_LANGUAGE:CXX>:-falign-functions=16384 -falign-jumps=16384 -falign-loops=16384 -falign-data=16384>
+   )
+   # 2. 保留你的链接参数，并补充段对齐（强化16K效果）
+    target_link_options(xlua PRIVATE
+        -Wl,--align-sections=16384  # 强制SO内部段按16K对齐（关键补充）
+        -Wl,-z,max-page-size=16384
+        -Wl,-z,common-page-size=16384
+    )
 
 endif ( )
+
 
