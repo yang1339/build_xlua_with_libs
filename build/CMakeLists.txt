@@ -348,21 +348,26 @@ endif ( )
 if ( ANDROID )
 #    target_link_options(xlua PRIVATE -Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384) # android 16K Pagesize
 
-    # 1. 为xlua添加编译阶段的16K对齐参数（核心补充）
-    target_compile_options(xlua PRIVATE
-        # C语言参数
-        $<$<COMPILE_LANGUAGE:C>:-falign-functions=16384 -falign-jumps=16384 -falign-loops=16384>
-        # C++语言参数
-        $<$<COMPILE_LANGUAGE:CXX>:-falign-functions=16384 -falign-jumps=16384 -falign-loops=16384>
-   )
-   # 2. 保留你的链接参数，并补充段对齐（强化16K效果）
-    target_link_options(xlua PRIVATE
-        -Wl,--align-sections=16384  # 强制SO内部段按16K对齐（关键补充）
-        -Wl,-z,max-page-size=16384
-        -Wl,-z,common-page-size=16384
-    )
+    # 1. 修复编译阶段的对齐参数（移除无效值，保留Clang支持的小粒度对齐）
+	target_compile_options(xlua PRIVATE
+    	# C语言：仅保留支持的小粒度对齐（16字节，兼顾效率且无警告）
+    	$<$<COMPILE_LANGUAGE:C>:-falign-functions=16 -falign-jumps=16 -falign-loops=16>
+    	# C++语言（若xlua包含C++代码）
+    	$<$<COMPILE_LANGUAGE:CXX>:-falign-functions=16 -falign-jumps=16 -falign-loops=16>
+    	# 完全移除-falign-data=16384（Clang不支持，且无实际意义）
+	)
+   # 2. 修复链接阶段参数（移除LLD不支持的--align-sections，保留核心内存页参数）
+	target_link_options(xlua PRIVATE
+    	# LLD不支持--align-sections，直接移除
+    	# 保留LLD支持的核心参数：设置16K内存页大小（实现16K对齐的关键）
+    	-Wl,-z,max-page-size=16384
+    	-Wl,-z,common-page-size=16384
+    	# 可选：LLD专属参数，强化段分离对齐（提升16K页面对齐兼容性）
+    	-Wl,-z,separate-code
+	)
 
 endif ( )
+
 
 
 
