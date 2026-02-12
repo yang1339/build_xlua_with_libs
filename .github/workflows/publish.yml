@@ -35,7 +35,6 @@ jobs:
           path: ./build/plugin_lua53/**/*
           name: plugin_lua53_android 
 
-  
   ohos:
     runs-on: ubuntu-latest
     steps:
