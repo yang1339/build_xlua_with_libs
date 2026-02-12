@@ -24,7 +24,7 @@ option ( UINT_ESPECIALLY "using custom ulong" OFF )
 option ( USING_LUAJIT "using luajit" OFF )
 option ( GC64 "using gc64" OFF )
 option ( LUAC_COMPATIBLE_FORMAT "compatible format" OFF )
-option ( PBC "using pbc" OFF )
+option ( PBC "using pbc" ON )
 
 find_path(XLUA_PROJECT_DIR NAMES SConstruct
     PATHS 
@@ -347,4 +347,5 @@ endif ( )
 
 if ( ANDROID )
     target_link_options(xlua PRIVATE -Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384) # android 16K Pagesize
+
 endif ( )
